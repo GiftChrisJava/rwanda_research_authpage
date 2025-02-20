@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secondary School Internet Access Education</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #f0f0f0 50%, #ebe9e9 50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .background-image-left {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        background-image: url("assets/image.jpg");
+        background-size: cover;
+        background-position: center;
+        z-index: 0;
+      }
+
+      .background-image-right {
+        position: absolute;
+        top: 0;
+        right: 0; /* Positioning it to the right */
+        width: 50%;
+        height: 100%;
+        background-image: url("assets/image2.jpg"); /* Replace with another image */
+        background-size: cover;
+        background-position: center;
+        z-index: 0;
+      }
+
+      .container {
+        display: flex;
+        background: rgba(255, 255, 255, 0.158); /* Adjust transparency */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        overflow: hidden;
+        max-width: 800px;
+        width: 90%;
+        position: relative;
+        z-index: 2;
+      }
+
+      .left {
+        flex: 1;
+        background: rgba(240, 240, 240, 0.8); /* Semi-transparent background */
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .left img {
+        width: 100px;
+        margin-bottom: 20px;
+      }
+
+      .left h1 {
+        font-size: 24px;
+        color: #333;
+        text-align: center;
+      }
+
+      .right {
+        flex: 1;
+        padding: 20px;
+        background: rgba(166, 166, 168, 0.582);
+        color: aliceblue;
+      }
+
+      .right form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .right label {
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #f1eeee;
+      }
+
+      .right select,
+      .right button {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+
+      .right button {
+        background: #007bff;
+        color: white;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .right button:hover {
+        background: #0056b3;
+      }
+
+      .language-switcher {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 2;
+      }
+
+      .language-switcher button {
+        background: none;
+        border: none;
+        color: #007bff;
+        cursor: pointer;
+        margin: 0 5px;
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      .language-switcher button:hover {
+        text-decoration: underline;
+      }
+
+      .feedback {
+        color: #007bff;
+        text-align: center;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="background-image-left"></div>
+    <div class="background-image-right"></div>
+
+    <div class="language-switcher">
+      <button onclick="changeLanguage('en')">English</button>
+      <button onclick="changeLanguage('fr')">Français</button>
+      <button onclick="changeLanguage('rw')">Kinyarwanda</button>
+    </div>
+
+    <div class="container">
+      <div class="left">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/1/17/Flag_of_Rwanda.svg"
+          alt="Rwanda Logo"
+        />
+        <h1 id="title">Secondary School Internet Access Education</h1>
+      </div>
+      <div class="right">
+        <form id="authForm">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+
+          <label for="school">Select School</label>
+          <select id="school" name="school">
+            <option value="school1">School 1</option>
+            <option value="school2">School 2</option>
+            <option value="school3">School 3</option>
+          </select>
+
+          <label for="age">Age Range</label>
+          <select id="age" name="age">
+            <option value="12-15">12-15</option>
+            <option value="16-18">16-18</option>
+            <option value="19+">19+</option>
+          </select>
+
+          <button type="button" onclick="authenticate()">Authenticate</button>
+          <div class="feedback" id="feedback"></div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      const translations = {
+        en: {
+          title: "Secondary School Internet Access Education",
+          gender: "Gender",
+          school: "Select School",
+          age: "Age Range",
+          authenticate: "Authenticate",
+          authenticating: "Authenticating...",
+        },
+        fr: {
+          title: "Éducation à l'Accès à Internet pour les Écoles Secondaires",
+          gender: "Genre",
+          school: "Sélectionner l'École",
+          age: "Tranche d'Âge",
+          authenticate: "Authentifier",
+          authenticating: "Authentification en cours...",
+        },
+        rw: {
+          title: "Kwiga Internet mu Mashuri y'Amashuri y'Isumbuye",
+          gender: "Igitsina",
+          school: "Hitamo Ishuri",
+          age: "Imiryaka",
+          authenticate: "Kwemeza",
+          authenticating: "Kuri kweza...",
+        },
+      };
+
+      function changeLanguage(lang) {
+        document.getElementById("title").innerText = translations[lang].title;
+        document.querySelector('label[for="gender"]').innerText =
+          translations[lang].gender;
+        document.querySelector('label[for="school"]').innerText =
+          translations[lang].school;
+        document.querySelector('label[for="age"]').innerText =
+          translations[lang].age;
+        document.querySelector("button").innerText =
+          translations[lang].authenticate;
+      }
+
+      function authenticate() {
+        document.getElementById("feedback").innerText =
+          translations[document.documentElement.lang].authenticating;
+        setTimeout(() => {
+          window.location.href = "page2.html";
+        }, 2000);
+      }
+    </script>
+  </body>
+</html>
